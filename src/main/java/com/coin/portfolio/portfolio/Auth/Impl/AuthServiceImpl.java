@@ -2,7 +2,10 @@ package com.coin.portfolio.portfolio.Auth.Impl;
 
 import org.springframework.stereotype.Service;
 
+import com.coin.portfolio.portfolio.PortfolioApplication;
 import com.coin.portfolio.portfolio.Auth.AuthService;
+import com.coin.portfolio.portfolio.Error.ErrorCode;
+import com.coin.portfolio.portfolio.Error.PortfolioExeption;
 import com.coin.portfolio.portfolio.Jwt.JwtUtil;
 import com.coin.portfolio.portfolio.User.User;
 import com.coin.portfolio.portfolio.User.UserRepository;
@@ -24,6 +27,7 @@ public class AuthServiceImpl implements AuthService {
 
         if (id == null) {
             // Execption
+            throw new PortfolioExeption(ErrorCode.USER_NOT_FOUND);
         }
         // 인코딩 비밀번호 관련 확인해야함.
 
