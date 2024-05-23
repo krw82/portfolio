@@ -1,8 +1,9 @@
 package com.coin.portfolio.portfolio.Auth.Impl;
 
+import org.springframework.context.annotation.Primary;
 import org.springframework.stereotype.Service;
 
-import com.coin.portfolio.portfolio.PortfolioApplication;
+import com.coin.portfolio.portfolio.AppConfig.SecurityConfig;
 import com.coin.portfolio.portfolio.Auth.AuthService;
 import com.coin.portfolio.portfolio.Error.ErrorCode;
 import com.coin.portfolio.portfolio.Error.PortfolioExeption;
@@ -11,27 +12,33 @@ import com.coin.portfolio.portfolio.User.User;
 import com.coin.portfolio.portfolio.User.UserRepository;
 
 import lombok.RequiredArgsConstructor;
+import java.util.HashMap;
 
 @Service
 @RequiredArgsConstructor
+@Primary
 public class AuthServiceImpl implements AuthService {
 
     private final JwtUtil jwtUtil;
     private final UserRepository UserRepository;
+    private final SecurityConfig securityConfig;
 
     @Override
-    public String login(User userDto) {
-        String id = userDto.getId();
-        String password = userDto.getPassword();
-        User userEntity = UserRepository.getReferenceById(id);
+    public String login(HashMap<String, Object> param) {
+        String id = (String) param.get("id");
+        String password = (String) param.get("password");
+        User userEntity = UserRepository.findById(id)
+                .orElseThrow(() -> new PortfolioExeption(ErrorCode.USER_NOT_FOUND));
 
-        if (id == null) {
-            // Execption
-            throw new PortfolioExeption(ErrorCode.USER_NOT_FOUND);
+        // if (!securityConfig.passwordEncoder().matches(password,
+        // userEntity.getPassword())) {
+        if (!password.equals(userEntity.getPassword())) {
+
+            // 비밀번호 체크
+            throw new PortfolioExeption(ErrorCode.INVALID_PASSWORD);
         }
-        // 인코딩 비밀번호 관련 확인해야함.
 
-        return jwtUtil.createAccesToken(userDto);
+        return jwtUtil.createAccesToken(userEntity);
         // 토큰발행
     }
 

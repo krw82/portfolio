@@ -1,8 +1,8 @@
 package com.coin.portfolio.portfolio.Auth;
 
-import com.coin.portfolio.portfolio.User.User;
+import java.util.HashMap;
 
 public interface AuthService {
-    public String login(User user);
+    public String login(HashMap<String, Object> param);
 
 }

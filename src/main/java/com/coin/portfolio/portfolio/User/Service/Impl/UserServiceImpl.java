@@ -23,8 +23,8 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public User login(Map<String, String> params) {
-        Optional<User> opUser = userRepository.findById(params.get("Id"));
-        User user = opUser.map(u -> u).orElseThrow(() -> new PortfolioExeption(ErrorCode.USER_NOT_FOUND));
+        User user = userRepository.findById(params.get("Id"))
+                .orElseThrow(() -> new PortfolioExeption(ErrorCode.USER_NOT_FOUND));
         return user;
     }
 
