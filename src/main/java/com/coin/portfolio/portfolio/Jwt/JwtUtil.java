@@ -7,7 +7,7 @@ import java.util.Date;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
-import com.coin.portfolio.portfolio.User.User;
+import com.coin.portfolio.portfolio.User.userEntity;
 
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.ExpiredJwtException;
@@ -32,11 +32,11 @@ public class JwtUtil {
         this.accessTokenExpTime = accessTokenExpTime;
     }
 
-    public String createAccesToken(User user) {
+    public String createAccesToken(userEntity user) {
         return createToken(user, accessTokenExpTime);
     }
 
-    private String createToken(User user, long expireTime) {
+    private String createToken(userEntity user, long expireTime) {
         Claims claims = Jwts.claims(); /// 토큰에 들어갈 값(body)
         claims.put("id", user.getId());
         claims.put("userName", user.getUserName());

@@ -2,8 +2,8 @@ package com.coin.portfolio.portfolio.User.Service;
 
 import java.util.Map;
 
-import com.coin.portfolio.portfolio.User.User;
+import com.coin.portfolio.portfolio.User.userEntity;
 
 public interface UserService {
-    public User login(Map<String, String> params);
+    public userEntity login(Map<String, String> params);
 }

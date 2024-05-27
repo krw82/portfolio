@@ -11,6 +11,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
+import com.coin.portfolio.portfolio.Jwt.CustomAuthenticationEntryPoint;
 import com.coin.portfolio.portfolio.Jwt.JwtAuthFilter;
 import com.coin.portfolio.portfolio.Jwt.JwtUtil;
 import com.coin.portfolio.portfolio.User.UserRepository;
@@ -24,6 +25,7 @@ public class SecurityConfig {
 
         private final UserRepository userRepository;
         private final JwtUtil jwtUtil;
+        private final CustomAuthenticationEntryPoint customAuthenticationEntryPoint;
 
         @Bean
         public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
@@ -50,9 +52,13 @@ public class SecurityConfig {
                                 .cors(Customizer.withDefaults())
                                 .sessionManagement(sessionManagement -> sessionManagement
                                                 .sessionCreationPolicy(SessionCreationPolicy.STATELESS))
+                                /*
+                                 * .exceptionHandling(handling -> handling
+                                 * .authenticationEntryPoint(customAuthenticationEntryPoint)) // 에러핸들링
+                                 */
 
                                 .addFilterBefore(new JwtAuthFilter(userRepository, jwtUtil),
-                                                UsernamePasswordAuthenticationFilter.class);
+                                                UsernamePasswordAuthenticationFilter.class); // 필터체인
 
                 return http.build(); // HttpSecurity 설정을 빌드하여 SecurityFilterChain 반환
         }

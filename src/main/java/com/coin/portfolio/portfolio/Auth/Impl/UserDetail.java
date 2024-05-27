@@ -7,13 +7,13 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 
 import com.coin.portfolio.portfolio.Auth.AuthDetail;
-import com.coin.portfolio.portfolio.User.User;
+import com.coin.portfolio.portfolio.User.userEntity;
 
 public class UserDetail implements AuthDetail {
 
-    private final User user;
+    private final userEntity user;
 
-    public UserDetail(User user) {
+    public UserDetail(userEntity user) {
         this.user = user;
     }
 

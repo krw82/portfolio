@@ -1,8 +1,7 @@
 package com.coin.portfolio.portfolio.Auth;
 
-import org.hibernate.mapping.Map;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -20,9 +19,11 @@ public class AuthController {
 
     private final AuthService authService;
 
-    @PostMapping("/login2")
+    @PostMapping("/login")
     public ApiResponse<String> login(@RequestBody HashMap<String, Object> param) {
-        String token = authService.login(param);
-        return new ApiResponse<>(HttpStatus.OK.value(), "dfd", "asd");
+        // String token = authService.login(param);
+        System.out.println("asdasdsadsad");
+        return new ApiResponse<>(HttpStatus.OK.value(), "", "");
     }
+
 }
