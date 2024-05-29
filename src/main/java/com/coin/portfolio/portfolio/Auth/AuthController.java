@@ -21,9 +21,8 @@ public class AuthController {
 
     @PostMapping("/login")
     public ApiResponse<String> login(@RequestBody HashMap<String, Object> param) {
-        // String token = authService.login(param);
-        System.out.println("asdasdsadsad");
-        return new ApiResponse<>(HttpStatus.OK.value(), "", "");
+        String token = authService.login(param);
+        return new ApiResponse<>(HttpStatus.OK.value(), "", token);
     }
 
 }

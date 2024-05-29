@@ -16,9 +16,9 @@ import lombok.RequiredArgsConstructor;
 @RequestMapping("")
 @RequiredArgsConstructor
 public class MemberController {
-    @GetMapping("/login22")
-    public ApiResponse<String> login2(@RequestBody HashMap<String, Object> param) {
-
+    @GetMapping("/test/t")
+    public ApiResponse<String> login2() {
+        System.out.println("sadasd");
         return new ApiResponse<>(HttpStatus.OK.value(), "", "dfdf");
 
     }

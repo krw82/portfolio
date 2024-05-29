@@ -27,16 +27,20 @@ public class SecurityConfig {
         private final JwtUtil jwtUtil;
         private final CustomAuthenticationEntryPoint customAuthenticationEntryPoint;
 
+        private static final String[] WHITE_LIST = {
+                        "/api/auth/**",
+                        "/error",
+                        "/h2-console/**"
+
+        };
+
         @Bean
         public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
                 http
                                 .csrf(csrf -> csrf.disable()) // CSRF 보호 비활성화
-
                                 .authorizeHttpRequests(auth -> auth
-                                                .requestMatchers("/api/auth/**", "/h2-console/**", "/login")
-                                                .permitAll() // 인증 없이 접근 허용
-                                                .anyRequest().authenticated() // 나머지 요청은 인증된 사용자만 접근 허용
-                                )
+                                                .requestMatchers(WHITE_LIST).permitAll() // 예외 URL
+                                                .anyRequest().authenticated()) // 인증 필요
 
                                 .formLogin(login -> login.disable())
 
@@ -50,15 +54,15 @@ public class SecurityConfig {
                                                                                                          // frame 옵션 설정
                                 )
                                 .cors(Customizer.withDefaults())
+                                .addFilterBefore(
+                                                new JwtAuthFilter(userRepository, jwtUtil,
+                                                                customAuthenticationEntryPoint),
+                                                UsernamePasswordAuthenticationFilter.class) // 필터체인
                                 .sessionManagement(sessionManagement -> sessionManagement
                                                 .sessionCreationPolicy(SessionCreationPolicy.STATELESS))
-                                /*
-                                 * .exceptionHandling(handling -> handling
-                                 * .authenticationEntryPoint(customAuthenticationEntryPoint)) // 에러핸들링
-                                 */
 
-                                .addFilterBefore(new JwtAuthFilter(userRepository, jwtUtil),
-                                                UsernamePasswordAuthenticationFilter.class); // 필터체인
+                                .exceptionHandling(handling -> handling
+                                                .authenticationEntryPoint(customAuthenticationEntryPoint)); // 에러핸들링
 
                 return http.build(); // HttpSecurity 설정을 빌드하여 SecurityFilterChain 반환
         }

@@ -13,6 +13,7 @@ import com.coin.portfolio.portfolio.Error.PortfolioExeption;
 import com.coin.portfolio.portfolio.User.UserRepository;
 import com.coin.portfolio.portfolio.User.userEntity;
 
+import io.jsonwebtoken.ExpiredJwtException;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
@@ -21,10 +22,13 @@ import jakarta.servlet.http.HttpServletResponse;
 public class JwtAuthFilter extends OncePerRequestFilter {
     private final JwtUtil jwtUtil;
     private final UserRepository userRepository;
+    private final CustomAuthenticationEntryPoint customAuthenticationEntryPoint;
 
-    public JwtAuthFilter(UserRepository userRepository, JwtUtil jwtUtil) {
+    public JwtAuthFilter(UserRepository userRepository, JwtUtil jwtUtil,
+            CustomAuthenticationEntryPoint customAuthenticationEntryPoint) {
         this.userRepository = userRepository;
         this.jwtUtil = jwtUtil;
+        this.customAuthenticationEntryPoint = customAuthenticationEntryPoint;
     }
 
     @Override
@@ -32,28 +36,25 @@ public class JwtAuthFilter extends OncePerRequestFilter {
             throws ServletException, IOException {
         String authHeader = request.getHeader("Authorization");
 
-        if (authHeader != null && authHeader.startsWith("Bearer ")) { // JWT혹은 OAuth 토큰의 규칙
+        if (authHeader != null && authHeader.startsWith("Bearer ")) { //
             String token = authHeader.substring(7);
+
             if (jwtUtil.validateToken(token)) {
-                Long userId = jwtUtil.getUserId(token);
+
+                String userId = jwtUtil.getUserId(token);
                 userEntity user = userRepository.findById(userId.toString())
                         .orElseThrow(() -> new PortfolioExeption(ErrorCode.USER_NOT_FOUND));
                 UserDetail userDetail = new UserDetail(user);
                 UsernamePasswordAuthenticationToken authToken = new UsernamePasswordAuthenticationToken(userDetail,
                         null, userDetail.getAuthorities());
                 SecurityContextHolder.getContext().setAuthentication(authToken);
-            } else {
-                System.out.println("asdasdasdasdsad");
-                request.setAttribute("exception", ErrorCode.INVALID_PASSWORD.getErrCode());
-                response.sendError(HttpServletResponse.SC_UNAUTHORIZED);
-                return;
 
+            } else {
+                // 토큰이 유효하지 않으면 401 응답을 반환
+                response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
+                // response.getWriter().write("Unauthorized: Invalid JWT token");
+                return;
             }
-        } else {
-            System.out.println("asdasdasdasds22222222ad");
-            request.setAttribute("exception", ErrorCode.USER_NOT_FOUND.getErrCode());
-            response.sendError(HttpServletResponse.SC_UNAUTHORIZED);
-            return;
 
         }
         filterChain.doFilter(request, response);

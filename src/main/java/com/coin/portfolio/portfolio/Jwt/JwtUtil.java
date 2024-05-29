@@ -53,8 +53,8 @@ public class JwtUtil {
                 .compact();
     }
 
-    public Long getUserId(String token) {
-        return paseClaims(token).get("id", Long.class);
+    public String getUserId(String token) {
+        return paseClaims(token).get("id", String.class);
     }
 
     public boolean validateToken(String token) {
