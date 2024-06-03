@@ -7,7 +7,7 @@ import com.coin.portfolio.portfolio.Auth.AuthService;
 import com.coin.portfolio.portfolio.Error.ErrorCode;
 import com.coin.portfolio.portfolio.Error.PortfolioExeption;
 import com.coin.portfolio.portfolio.Jwt.JwtUtil;
-import com.coin.portfolio.portfolio.User.userEntity;
+import com.coin.portfolio.portfolio.User.UserEntity;
 import com.coin.portfolio.portfolio.User.UserRepository;
 
 import lombok.RequiredArgsConstructor;
@@ -25,7 +25,7 @@ public class AuthServiceImpl implements AuthService {
     public String login(HashMap<String, Object> param) {
         String id = (String) param.get("id");
         String password = (String) param.get("password");
-        userEntity userEntity = UserRepository.findById(id)
+        UserEntity userEntity = UserRepository.findById(id)
                 .orElseThrow(() -> new PortfolioExeption(ErrorCode.USER_NOT_FOUND));
 
         // if (!securityConfig.passwordEncoder().matches(password,

@@ -31,7 +31,6 @@ public class SecurityConfig {
                         "/api/auth/**",
                         "/error",
                         "/h2-console/**"
-
         };
 
         @Bean

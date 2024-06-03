@@ -10,8 +10,8 @@ import org.springframework.web.filter.OncePerRequestFilter;
 import com.coin.portfolio.portfolio.Auth.Impl.UserDetail;
 import com.coin.portfolio.portfolio.Error.ErrorCode;
 import com.coin.portfolio.portfolio.Error.PortfolioExeption;
+import com.coin.portfolio.portfolio.User.UserEntity;
 import com.coin.portfolio.portfolio.User.UserRepository;
-import com.coin.portfolio.portfolio.User.userEntity;
 
 import io.jsonwebtoken.ExpiredJwtException;
 import jakarta.servlet.FilterChain;
@@ -36,13 +36,13 @@ public class JwtAuthFilter extends OncePerRequestFilter {
             throws ServletException, IOException {
         String authHeader = request.getHeader("Authorization");
 
-        if (authHeader != null && authHeader.startsWith("Bearer ")) { //
+        if (authHeader != null && authHeader.startsWith("Bearer ")) {
             String token = authHeader.substring(7);
 
-            if (jwtUtil.validateToken(token)) {
+            if (jwtUtil.validateToken(token)) { // 토큰 활성화 여부
 
                 String userId = jwtUtil.getUserId(token);
-                userEntity user = userRepository.findById(userId.toString())
+                UserEntity user = userRepository.findById(userId.toString()) // 해당 토큰의 아이디를 얻어 아이디가 존재하는지 여부
                         .orElseThrow(() -> new PortfolioExeption(ErrorCode.USER_NOT_FOUND));
                 UserDetail userDetail = new UserDetail(user);
                 UsernamePasswordAuthenticationToken authToken = new UsernamePasswordAuthenticationToken(userDetail,
