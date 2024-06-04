@@ -17,4 +17,6 @@ public interface AssetService {
     List<Asset> searchAssets(String keyword);
 
     List<Asset> filterAssets(String assetType, LocalDateTime startDate, LocalDateTime endDate);
+
+    void getAssetPrice();
 }

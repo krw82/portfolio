@@ -39,7 +39,7 @@ public class AssetServiceImpl implements AssetService {
 
     @Override
     public Asset updateAsset(Long assetId, Asset assetDetails) {
-        Asset asset = getAssetById(assetId);
+        Asset asset = this.getAssetById(assetId);
         asset.setAssetType(assetDetails.getAssetType());
         asset.setAssetName(assetDetails.getAssetName());
         asset.setTickerSymbol(assetDetails.getTickerSymbol());
@@ -50,7 +50,7 @@ public class AssetServiceImpl implements AssetService {
 
     @Override
     public void deleteAsset(Long assetId) {
-        Asset asset = getAssetById(assetId);
+        Asset asset = this.getAssetById(assetId);
         assetRepository.delete(asset);
     }
 
@@ -64,6 +64,13 @@ public class AssetServiceImpl implements AssetService {
     public List<Asset> filterAssets(String assetType, LocalDateTime startDate, LocalDateTime endDate) {
         // TODO Auto-generated method stub
         throw new UnsupportedOperationException("Unimplemented method 'filterAssets'");
+    }
+
+    @Override
+    public void getAssetPrice() {
+        List<Asset> assets = this.getAllAssets();
+        // 다른 서비스로 통신하여 가져올것.
+        // 다른서비스에서는 REDIS로 저장후 가져올것. => 가격데이터 저장하기싫음.
     }
 
 }
