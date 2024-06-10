@@ -36,8 +36,11 @@ public class UserEntity {
     @Column(nullable = false)
     private String role;
 
-    @OneToOne(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    private Portfolio portfolio;
+    /*
+     * @OneToOne(mappedBy = "user", cascade = CascadeType.ALL, fetch =
+     * FetchType.LAZY)
+     * private Portfolio portfolio;
+     */
 
     public Collection<? extends GrantedAuthority> getAuthorities() {
         return Collections.singleton(new SimpleGrantedAuthority(role));

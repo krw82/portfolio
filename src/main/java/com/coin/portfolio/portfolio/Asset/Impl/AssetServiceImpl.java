@@ -4,20 +4,27 @@ import java.time.LocalDateTime;
 import java.util.List;
 
 import org.springframework.context.annotation.Primary;
+import org.springframework.stereotype.Service;
 
 import com.coin.portfolio.portfolio.Asset.Asset;
 import com.coin.portfolio.portfolio.Asset.AssetRepository;
 import com.coin.portfolio.portfolio.Asset.AssetService;
 import com.coin.portfolio.portfolio.Error.ErrorCode;
 import com.coin.portfolio.portfolio.Error.PortfolioExeption;
+import com.coin.portfolio.portfolio.Util.WebClientService;
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.ObjectMapper;
 
 import lombok.RequiredArgsConstructor;
 
 @Primary
 @RequiredArgsConstructor
+@Service
 public class AssetServiceImpl implements AssetService {
 
     private final AssetRepository assetRepository;
+    private final WebClientService webClientService;
+    private final ObjectMapper objectMapper;
 
     @Override
     public Asset createAsset(Asset asset) { // 자산 생성
@@ -27,8 +34,8 @@ public class AssetServiceImpl implements AssetService {
     }
 
     @Override
-    public Asset getAssetById(Long assetId) { // 자산 id 정보 조회
-        return assetRepository.findById(assetId)
+    public Asset getAssetById(String symbol) { // 자산 id 정보 조회
+        return assetRepository.findById(symbol)
                 .orElseThrow(() -> new PortfolioExeption(ErrorCode.NO_DATA_TABLE));
     }
 
@@ -38,19 +45,17 @@ public class AssetServiceImpl implements AssetService {
     }
 
     @Override
-    public Asset updateAsset(Long assetId, Asset assetDetails) {
-        Asset asset = this.getAssetById(assetId);
-        asset.setAssetType(assetDetails.getAssetType());
-        asset.setAssetName(assetDetails.getAssetName());
-        asset.setTickerSymbol(assetDetails.getTickerSymbol());
+    public Asset updateAsset(String symbol, Asset assetDetails) {
+        Asset asset = this.getAssetById(symbol);
+        asset.setSymbol(assetDetails.getSymbol());
         asset.setUpdatedAt(LocalDateTime.now());
         return assetRepository.save(asset);
 
     }
 
     @Override
-    public void deleteAsset(Long assetId) {
-        Asset asset = this.getAssetById(assetId);
+    public void deleteAsset(String symbol) {
+        Asset asset = this.getAssetById(symbol);
         assetRepository.delete(asset);
     }
 
@@ -67,8 +72,22 @@ public class AssetServiceImpl implements AssetService {
     }
 
     @Override
-    public void getAssetPrice() {
-        List<Asset> assets = this.getAllAssets();
+    public void getAssetInfo() {
+        try {
+
+            String response = webClientService.ApiGet("http://127.0.0.1:8081/v3", String.class).block();
+            List<Asset> assets = objectMapper.readValue(response, new TypeReference<List<Asset>>() {
+            });
+            for (Asset asset : assets) {
+                asset.setAssetType("COIN");
+            }
+            assetRepository.saveAll(assets);
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            throw new PortfolioExeption(ErrorCode.NO_DATA_TABLE);
+        }
+
         // 다른 서비스로 통신하여 가져올것.
         // 다른서비스에서는 REDIS로 저장후 가져올것. => 가격데이터 저장하기싫음.
     }

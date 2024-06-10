@@ -9,9 +9,9 @@ public interface PortfolioService {
 
     List<Portfolio> getUserPortfolios(String id);
 
-    Portfolio updatePortfolio(Long id, Portfolio portfolioDetails);
+    void updatePortfolio(Long id, Portfolio portfolioDetails);
 
     void deletePortfolio(Long id);
 
-    void optimizeAssetAllocation(String id);
+    Portfolio optimizeAssetAllocation(String id);
 }

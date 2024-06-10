@@ -6,17 +6,17 @@ import java.util.List;
 public interface AssetService {
     Asset createAsset(Asset asset);
 
-    Asset getAssetById(Long assetId);
+    Asset getAssetById(String tickerSymbol);
 
     List<Asset> getAllAssets();
 
-    Asset updateAsset(Long assetId, Asset assetDetails);
+    Asset updateAsset(String tickerSymbol, Asset assetDetails);
 
-    void deleteAsset(Long assetId);
+    void deleteAsset(String tickerSymbol);
 
     List<Asset> searchAssets(String keyword);
 
     List<Asset> filterAssets(String assetType, LocalDateTime startDate, LocalDateTime endDate);
 
-    void getAssetPrice();
+    void getAssetInfo();
 }

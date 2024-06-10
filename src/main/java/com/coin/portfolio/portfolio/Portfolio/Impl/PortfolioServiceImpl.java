@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 import com.coin.portfolio.portfolio.Error.ErrorCode;
 import com.coin.portfolio.portfolio.Error.PortfolioExeption;
 import com.coin.portfolio.portfolio.Portfolio.Portfolio;
+import com.coin.portfolio.portfolio.Portfolio.PortfolioOptimizationService;
 import com.coin.portfolio.portfolio.Portfolio.PortfolioRepository;
 import com.coin.portfolio.portfolio.Portfolio.PortfolioService;
 
@@ -19,6 +20,7 @@ import lombok.RequiredArgsConstructor;
 public class PortfolioServiceImpl implements PortfolioService {
 
     private final PortfolioRepository portfolioRepository;
+    private final PortfolioOptimizationService portfolioOptimizationService;
 
     @Override
     public Portfolio createPortfolio(Portfolio portfolio) {
@@ -31,27 +33,29 @@ public class PortfolioServiceImpl implements PortfolioService {
     }
 
     @Override
-    public List<Portfolio> getUserPortfolios(String id) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'getAllPortfolios'");
+    public List<Portfolio> getUserPortfolios(String User) {
+        throw new PortfolioExeption(ErrorCode.NO_DATA_TABLE);
+        // return portfolioRepository.findByUser(User);
     }
 
     @Override
-    public Portfolio updatePortfolio(Long id, Portfolio portfolioDetails) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'updatePortfolio'");
+    public void updatePortfolio(Long id, Portfolio portfolioDetails) {
+        Portfolio portfolio = this.getPortfolioById(id);
+        portfolio.setCount(portfolioDetails.getCount());
+        portfolio.setName(portfolioDetails.getName());
+        portfolioRepository.save(portfolio);
     }
 
     @Override
     public void deletePortfolio(Long id) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'deletePortfolio'");
+        Portfolio portfolio = this.getPortfolioById(id);
+        portfolioRepository.delete(portfolio);
     }
 
     @Override
-    public void optimizeAssetAllocation(String id) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'optimizeAssetAllocation'");
+    public Portfolio optimizeAssetAllocation(String User) {
+        List<Portfolio> portfolios = this.getUserPortfolios(User);
+        return portfolioOptimizationService.optimizeAssetAllocation(portfolios);
     }
 
 }

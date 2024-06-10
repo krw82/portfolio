@@ -4,5 +4,4 @@ import java.util.List;
 
 public interface PortfolioOptimizationService {
     Portfolio optimizeAssetAllocation(List<Portfolio> portfolio);
-
 }

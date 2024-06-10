@@ -33,12 +33,16 @@ public class Portfolio {
     @Column(nullable = false)
     private Long count;
 
-    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    @JoinColumn(name = "portfolio_id")
-    private Set<Asset> assets;
-
-    @OneToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "user_id", nullable = false)
-    private UserEntity user;
+    /*
+     * @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+     * 
+     * @JoinColumn(name = "portfolio_id")
+     * private Set<Asset> assets;
+     * 
+     * @OneToOne(fetch = FetchType.LAZY)
+     * 
+     * @JoinColumn(name = "user_id", nullable = false)
+     * private UserEntity user;
+     */
 
 }

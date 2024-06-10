@@ -30,7 +30,8 @@ public class SecurityConfig {
         private static final String[] WHITE_LIST = {
                         "/api/auth/**",
                         "/error",
-                        "/h2-console/**"
+                        "/h2-console/**",
+                        "/test/**"
         };
 
         @Bean

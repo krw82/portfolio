@@ -7,8 +7,7 @@ import java.time.LocalDateTime;
 import java.util.List;
 
 @Repository
-public interface AssetRepository extends JpaRepository<Asset, Long> {
-    List<Asset> findByAssetNameContainingOrTickerSymbolContaining(String assetName, String tickerSymbol);
+public interface AssetRepository extends JpaRepository<Asset, String> {
 
     List<Asset> findByAssetTypeAndCreatedAtBetween(String assetType, LocalDateTime startDate,
             LocalDateTime endDate);
