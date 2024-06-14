@@ -19,9 +19,9 @@ import lombok.Getter;
 import lombok.Setter;
 
 @Entity
+@Table(name = "tb_user_info")
 @Getter
 @Setter
-@Table(name = "tb_user_info")
 public class UserEntity {
 
     @Id
@@ -36,11 +36,17 @@ public class UserEntity {
     @Column(nullable = false)
     private String role;
 
+<<<<<<< HEAD
     /*
      * @OneToOne(mappedBy = "user", cascade = CascadeType.ALL, fetch =
      * FetchType.LAZY)
      * private Portfolio portfolio;
      */
+=======
+    // @OneToOne(mappedBy = "user", cascade = CascadeType.ALL, fetch =
+    // FetchType.LAZY)
+    //private Portfolio portfolio;
+>>>>>>> 3a9c0a8 (//)
 
     public Collection<? extends GrantedAuthority> getAuthorities() {
         return Collections.singleton(new SimpleGrantedAuthority(role));

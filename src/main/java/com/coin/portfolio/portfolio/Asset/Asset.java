@@ -18,7 +18,11 @@ import lombok.Setter;
 @Entity
 @Getter
 @Setter
+<<<<<<< HEAD
 @Table(name = "Asset")
+=======
+@Table(name = "asset")
+>>>>>>> 3a9c0a8 (//)
 public class Asset {
     @Id
     private String symbol;
@@ -32,6 +36,7 @@ public class Asset {
     @UpdateTimestamp
     private LocalDateTime updatedAt;
 
+<<<<<<< HEAD
     /*
      * public enum AssetType {
      * CASH,
@@ -44,5 +49,9 @@ public class Asset {
      * @JoinColumn(name = "portfolio_id")
      * private Portfolio portfolio;
      */
+=======
+    // @JoinColumn(name = "portfolio_id")
+    // private Portfolio portfolio;
+>>>>>>> 3a9c0a8 (//)
 
 }

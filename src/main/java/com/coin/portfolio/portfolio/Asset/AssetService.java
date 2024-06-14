@@ -16,7 +16,11 @@ public interface AssetService {
 
     List<Asset> searchAssets(String keyword);
 
+<<<<<<< HEAD
     List<Asset> filterAssets(String assetType, LocalDateTime startDate, LocalDateTime endDate);
 
     void getAssetInfo();
+=======
+    void getAssetPrice();
+>>>>>>> 3a9c0a8 (//)
 }

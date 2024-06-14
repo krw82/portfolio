@@ -50,13 +50,4 @@ public class AssetController {
         List<Asset> assets = assetService.searchAssets(keyword);
         return ResponseEntity.ok(assets);
     }
-
-    @GetMapping("/filter")
-    public ResponseEntity<List<Asset>> filterAssets(
-            @RequestParam(value = "assetType", required = false) String assetType,
-            @RequestParam(value = "startDate", required = false) LocalDateTime startDate,
-            @RequestParam(value = "endDate", required = false) LocalDateTime endDate) {
-        List<Asset> assets = assetService.filterAssets(assetType, startDate, endDate);
-        return ResponseEntity.ok(assets);
-    }
 }

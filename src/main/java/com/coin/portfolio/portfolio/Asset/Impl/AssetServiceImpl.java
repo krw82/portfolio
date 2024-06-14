@@ -66,6 +66,7 @@ public class AssetServiceImpl implements AssetService {
     }
 
     @Override
+<<<<<<< HEAD
     public List<Asset> filterAssets(String assetType, LocalDateTime startDate, LocalDateTime endDate) {
         // TODO Auto-generated method stub
         throw new UnsupportedOperationException("Unimplemented method 'filterAssets'");
@@ -87,6 +88,10 @@ public class AssetServiceImpl implements AssetService {
             e.printStackTrace();
             throw new PortfolioExeption(ErrorCode.NO_DATA_TABLE);
         }
+=======
+    public void getAssetPrice() {
+        List<Asset> assets = this.getAllAssets();
+>>>>>>> 3a9c0a8 (//)
 
         // 다른 서비스로 통신하여 가져올것.
         // 다른서비스에서는 REDIS로 저장후 가져올것. => 가격데이터 저장하기싫음.
