@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 import com.coin.portfolio.portfolio.Asset.Asset;
 import com.coin.portfolio.portfolio.Asset.AssetRepository;
 import com.coin.portfolio.portfolio.Asset.AssetService;
+import com.coin.portfolio.portfolio.Asset.AssetType;
 import com.coin.portfolio.portfolio.Error.ErrorCode;
 import com.coin.portfolio.portfolio.Error.PortfolioExeption;
 import com.coin.portfolio.portfolio.Util.WebClientService;
@@ -60,27 +61,15 @@ public class AssetServiceImpl implements AssetService {
     }
 
     @Override
-    public List<Asset> searchAssets(String keyword) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'searchAssets'");
-    }
-
-    @Override
-<<<<<<< HEAD
-    public List<Asset> filterAssets(String assetType, LocalDateTime startDate, LocalDateTime endDate) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'filterAssets'");
-    }
-
-    @Override
     public void getAssetInfo() {
         try {
 
-            String response = webClientService.ApiGet("http://127.0.0.1:8081/v3", String.class).block();
+            String response = webClientService.ApiGet("http://ta/getTicker", String.class).block();
+            System.out.println(response);
             List<Asset> assets = objectMapper.readValue(response, new TypeReference<List<Asset>>() {
             });
             for (Asset asset : assets) {
-                asset.setAssetType("COIN");
+                asset.setAssetType(AssetType.COIN);
             }
             assetRepository.saveAll(assets);
 
@@ -88,10 +77,10 @@ public class AssetServiceImpl implements AssetService {
             e.printStackTrace();
             throw new PortfolioExeption(ErrorCode.NO_DATA_TABLE);
         }
-=======
+    }
+
     public void getAssetPrice() {
         List<Asset> assets = this.getAllAssets();
->>>>>>> 3a9c0a8 (//)
 
         // 다른 서비스로 통신하여 가져올것.
         // 다른서비스에서는 REDIS로 저장후 가져올것. => 가격데이터 저장하기싫음.

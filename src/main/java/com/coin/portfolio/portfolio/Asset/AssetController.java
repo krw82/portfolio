@@ -44,10 +44,4 @@ public class AssetController {
         assetService.deleteAsset(tickerSymbol);
         return ResponseEntity.noContent().build();
     }
-
-    @GetMapping("/search")
-    public ResponseEntity<List<Asset>> searchAssets(@RequestParam(value = "keyword") String keyword) {
-        List<Asset> assets = assetService.searchAssets(keyword);
-        return ResponseEntity.ok(assets);
-    }
 }

@@ -6,9 +6,12 @@ import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
 import com.coin.portfolio.portfolio.Portfolio.Portfolio;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import jakarta.persistence.Entity;
-
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.Table;
@@ -18,40 +21,22 @@ import lombok.Setter;
 @Entity
 @Getter
 @Setter
-<<<<<<< HEAD
-@Table(name = "Asset")
-=======
 @Table(name = "asset")
->>>>>>> 3a9c0a8 (//)
 public class Asset {
     @Id
     private String symbol;
 
-    private String assetType;
+    @Enumerated(EnumType.STRING)
+    private AssetType assetType;
+
     private double lastPrice;
 
+    @JsonIgnore
     @CreationTimestamp
     private LocalDateTime createdAt;
 
+    @JsonIgnore
     @UpdateTimestamp
     private LocalDateTime updatedAt;
-
-<<<<<<< HEAD
-    /*
-     * public enum AssetType {
-     * CASH,
-     * STOCK,
-     * COIN
-     * }
-     */
-
-    /*
-     * @JoinColumn(name = "portfolio_id")
-     * private Portfolio portfolio;
-     */
-=======
-    // @JoinColumn(name = "portfolio_id")
-    // private Portfolio portfolio;
->>>>>>> 3a9c0a8 (//)
 
 }
