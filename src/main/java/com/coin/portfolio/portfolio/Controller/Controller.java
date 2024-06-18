@@ -17,4 +17,9 @@ public class Controller {
         assetService.getAssetInfo();
     }
 
+    @GetMapping("/test/v1")
+    public void getMethodName() {
+        assetService.getAssetPrice();
+    }
+
 }

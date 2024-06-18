@@ -2,6 +2,7 @@ package com.coin.portfolio.portfolio.Asset.Impl;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.context.annotation.Primary;
 import org.springframework.stereotype.Service;
@@ -13,7 +14,9 @@ import com.coin.portfolio.portfolio.Asset.AssetType;
 import com.coin.portfolio.portfolio.Error.ErrorCode;
 import com.coin.portfolio.portfolio.Error.PortfolioExeption;
 import com.coin.portfolio.portfolio.Util.WebClientService;
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import lombok.RequiredArgsConstructor;
@@ -64,7 +67,7 @@ public class AssetServiceImpl implements AssetService {
     public void getAssetInfo() {
         try {
 
-            String response = webClientService.ApiGet("http://ta/getTicker", String.class).block();
+            String response = webClientService.ApiGet("http://193.123.249.35:8080/ta/getTicker", String.class).block();
             System.out.println(response);
             List<Asset> assets = objectMapper.readValue(response, new TypeReference<List<Asset>>() {
             });
@@ -79,11 +82,23 @@ public class AssetServiceImpl implements AssetService {
         }
     }
 
+    @Override
     public void getAssetPrice() {
-        List<Asset> assets = this.getAllAssets();
 
-        // 다른 서비스로 통신하여 가져올것.
-        // 다른서비스에서는 REDIS로 저장후 가져올것. => 가격데이터 저장하기싫음.
+        try {
+            List<Asset> assets = this.getAllAssets();
+            String response = webClientService.ApiGet("https://api.binance.com/api/v3/ticker/price", String.class)
+                    .block();
+            List<Map<String, String>> lastPrices = objectMapper.readValue(response,
+                    new TypeReference<List<Map<String, String>>>() {
+                    });
+            for (Asset asset : assets) {
+                lastPrices.stream().filter(priceMap -> priceMap.get("symbol").equals(asset.getSymbol())).findFirst()
+                        .ifPresent(priceMap -> asset.setLastPrice(Double.valueOf(priceMap.get("price"))));
+
+            }
+            assetRepository.saveAll(assets);
+        } catch (Exception e) {
+        }
     }
-
 }
