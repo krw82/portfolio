@@ -1,19 +1,14 @@
 package com.coin.portfolio.portfolio.User;
 
-import java.util.Collection;
-import java.util.Collections;
-
-import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import java.util.ArrayList;
+import java.util.List;
 
 import com.coin.portfolio.portfolio.Portfolio.Portfolio;
 
-import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
-import jakarta.persistence.FetchType;
 import jakarta.persistence.Id;
-import jakarta.persistence.OneToOne;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import lombok.Getter;
 import lombok.Setter;
@@ -36,8 +31,7 @@ public class UserEntity {
     @Column(nullable = false)
     private String role;
 
-    // OneToOne(mappedBy = "user", cascade = CascadeType.ALL, fetch =
-    // FetchType.LAZY)
-    // private Portfolio portfolio;
+    @OneToMany(mappedBy = "USER_ID")
+    private List<Portfolio> portfolio = new ArrayList<>();
 
 }

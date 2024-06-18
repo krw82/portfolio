@@ -42,7 +42,7 @@ public class PortfolioServiceImpl implements PortfolioService {
     public void updatePortfolio(Long id, Portfolio portfolioDetails) {
         Portfolio portfolio = this.getPortfolioById(id);
         portfolio.setCount(portfolioDetails.getCount());
-        portfolio.setName(portfolioDetails.getName());
+        portfolio.setFlatPrice(portfolioDetails.getFlatPrice());
         portfolioRepository.save(portfolio);
     }
 
