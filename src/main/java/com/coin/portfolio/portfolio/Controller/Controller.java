@@ -4,6 +4,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.coin.portfolio.portfolio.Asset.AssetService;
+import com.coin.portfolio.portfolio.Asset.AssetHandler.AssetFacade;
 
 import lombok.RequiredArgsConstructor;
 
@@ -11,6 +12,7 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class Controller {
     private final AssetService assetService;
+    private final AssetFacade assetFacade;
 
     @GetMapping("/test/v2")
     public void test2() {
@@ -19,7 +21,7 @@ public class Controller {
 
     @GetMapping("/test/v1")
     public void getMethodName() {
-        assetService.getAssetPrice();
+        assetFacade.getAssetPrice();
     }
 
 }

@@ -20,9 +20,9 @@ public class AssetController {
         return ResponseEntity.ok(createdAsset);
     }
 
-    @GetMapping("/{tickerSymbol}")
-    public ResponseEntity<Asset> getAssetById(@PathVariable(value = "tickerSymbol") String tickerSymbol) {
-        Asset asset = assetService.getAssetById(tickerSymbol);
+    @GetMapping("/{symbol}")
+    public ResponseEntity<Asset> getAssetById(@PathVariable(value = "symbol") String symbol) {
+        Asset asset = assetService.getAssetById(symbol);
         return ResponseEntity.ok(asset);
     }
 
@@ -32,16 +32,16 @@ public class AssetController {
         return ResponseEntity.ok(assets);
     }
 
-    @PutMapping("/{tickerSymbol}")
-    public ResponseEntity<Asset> updateAsset(@PathVariable(value = "tickerSymbol") String tickerSymbol,
+    @PutMapping("/{symbol}")
+    public ResponseEntity<Asset> updateAsset(@PathVariable(value = "symbol") String symbol,
             @RequestBody Asset assetDetails) {
-        Asset updatedAsset = assetService.updateAsset(tickerSymbol, assetDetails);
+        Asset updatedAsset = assetService.updateAsset(symbol, assetDetails);
         return ResponseEntity.ok(updatedAsset);
     }
 
-    @DeleteMapping("/{tickerSymbol}")
-    public ResponseEntity<Void> deleteAsset(@PathVariable(value = "tickerSymbol") String tickerSymbol) {
-        assetService.deleteAsset(tickerSymbol);
+    @DeleteMapping("/{symbol}")
+    public ResponseEntity<Void> deleteAsset(@PathVariable(value = "symbol") String symbol) {
+        assetService.deleteAsset(symbol);
         return ResponseEntity.noContent().build();
     }
 }

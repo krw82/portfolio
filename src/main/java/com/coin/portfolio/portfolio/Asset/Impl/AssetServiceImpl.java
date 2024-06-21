@@ -82,23 +82,4 @@ public class AssetServiceImpl implements AssetService {
         }
     }
 
-    @Override
-    public void getAssetPrice() {
-
-        try {
-            List<Asset> assets = this.getAllAssets();
-            String response = webClientService.ApiGet("https://api.binance.com/api/v3/ticker/price", String.class)
-                    .block();
-            List<Map<String, String>> lastPrices = objectMapper.readValue(response,
-                    new TypeReference<List<Map<String, String>>>() {
-                    });
-            for (Asset asset : assets) {
-                lastPrices.stream().filter(priceMap -> priceMap.get("symbol").equals(asset.getSymbol())).findFirst()
-                        .ifPresent(priceMap -> asset.setLastPrice(Double.valueOf(priceMap.get("price"))));
-
-            }
-            assetRepository.saveAll(assets);
-        } catch (Exception e) {
-        }
-    }
 }

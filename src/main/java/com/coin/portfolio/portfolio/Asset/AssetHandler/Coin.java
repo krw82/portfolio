@@ -1,6 +1,7 @@
 package com.coin.portfolio.portfolio.Asset.AssetHandler;
 
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.stereotype.Service;
 
@@ -27,7 +28,7 @@ public class Coin implements AssetHandler {
     public void getAssetsInfo() {
         try {
 
-            String response = webClientService.ApiGet("http://127.0.0.1:8081/v3", String.class).block();
+            String response = webClientService.ApiGet("http://193.123.249.35:8080/ta/getTicker", String.class).block();
             List<Asset> assets = objectMapper.readValue(response, new TypeReference<List<Asset>>() {
             });
             for (Asset asset : assets) {
@@ -39,9 +40,26 @@ public class Coin implements AssetHandler {
             e.printStackTrace();
             throw new PortfolioExeption(ErrorCode.NO_DATA_TABLE);
         }
+    }
 
-        // 다른 서비스로 통신하여 가져올것.
-        // 다른서비스에서는 REDIS로 저장후 가져올것. => 가격데이터 저장하기싫음.
+    @Override
+    public void getAssetPrice() {
+
+        try {
+            List<Asset> assets = assetRepository.findByAssetType(AssetType.COIN);
+            String response = webClientService.ApiGet("https://api.binance.com/api/v3/ticker/price", String.class)
+                    .block();
+            List<Map<String, String>> lastPrices = objectMapper.readValue(response,
+                    new TypeReference<List<Map<String, String>>>() {
+                    });
+            for (Asset asset : assets) {
+                lastPrices.stream().filter(priceMap -> priceMap.get("symbol").equals(asset.getSymbol())).findFirst()
+                        .ifPresent(priceMap -> asset.setLastPrice(Double.valueOf(priceMap.get("price"))));
+            }
+
+            assetRepository.saveAll(assets);
+        } catch (Exception e) {
+        }
     }
 
 }
