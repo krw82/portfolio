@@ -31,7 +31,7 @@ public class UserEntity {
     @Column(nullable = false)
     private String role;
 
-    @OneToMany(mappedBy = "USER_ID")
+    @OneToMany(mappedBy = "id")
     private List<Portfolio> portfolio = new ArrayList<>();
 
 }

@@ -2,7 +2,6 @@ package com.coin.portfolio.portfolio.Asset.Impl;
 
 import java.time.LocalDateTime;
 import java.util.List;
-import java.util.Map;
 
 import org.springframework.context.annotation.Primary;
 import org.springframework.stereotype.Service;
@@ -13,10 +12,8 @@ import com.coin.portfolio.portfolio.Asset.AssetService;
 import com.coin.portfolio.portfolio.Asset.AssetType;
 import com.coin.portfolio.portfolio.Error.ErrorCode;
 import com.coin.portfolio.portfolio.Error.PortfolioExeption;
-import com.coin.portfolio.portfolio.Util.WebClientService;
-import com.fasterxml.jackson.core.JsonProcessingException;
+import com.coin.portfolio.portfolio.client.TaClient;
 import com.fasterxml.jackson.core.type.TypeReference;
-import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import lombok.RequiredArgsConstructor;
@@ -27,8 +24,8 @@ import lombok.RequiredArgsConstructor;
 public class AssetServiceImpl implements AssetService {
 
     private final AssetRepository assetRepository;
-    private final WebClientService webClientService;
     private final ObjectMapper objectMapper;
+    private final TaClient taClient;
 
     @Override
     public Asset createAsset(Asset asset) { // 자산 생성
@@ -67,7 +64,9 @@ public class AssetServiceImpl implements AssetService {
     public void getAssetInfo() {
         try {
 
-            String response = webClientService.ApiGet("http://193.123.249.35:8080/ta/getTicker", String.class).block();
+            // String response = webClientService.ApiGet("http://ta/getTicker",
+            // String.class).block();
+            String response = taClient.getTicker();
             System.out.println(response);
             List<Asset> assets = objectMapper.readValue(response, new TypeReference<List<Asset>>() {
             });

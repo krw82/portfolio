@@ -1,18 +1,18 @@
 package com.coin.portfolio.portfolio.Asset;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.time.LocalDateTime;
+import lombok.RequiredArgsConstructor;
+
 import java.util.List;
 
 @RestController
 @RequestMapping("/assets")
+@RequiredArgsConstructor
 public class AssetController {
 
-    @Autowired
-    private AssetService assetService;
+    private final AssetService assetService;
 
     @PostMapping
     public ResponseEntity<Asset> createAsset(@RequestBody Asset asset) {
