@@ -14,7 +14,7 @@ public class AssetController {
 
     private final AssetService assetService;
 
-    @PostMapping
+    @PostMapping("/")
     public ResponseEntity<Asset> createAsset(@RequestBody Asset asset) {
         Asset createdAsset = assetService.createAsset(asset);
         return ResponseEntity.ok(createdAsset);
@@ -26,7 +26,7 @@ public class AssetController {
         return ResponseEntity.ok(asset);
     }
 
-    @GetMapping
+    @GetMapping("/")
     public ResponseEntity<List<Asset>> getAllAssets() {
         List<Asset> assets = assetService.getAllAssets();
         return ResponseEntity.ok(assets);

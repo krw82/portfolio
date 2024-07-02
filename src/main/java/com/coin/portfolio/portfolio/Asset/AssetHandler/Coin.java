@@ -11,6 +11,7 @@ import com.coin.portfolio.portfolio.Asset.AssetType;
 import com.coin.portfolio.portfolio.Error.ErrorCode;
 import com.coin.portfolio.portfolio.Error.PortfolioExeption;
 import com.coin.portfolio.portfolio.Util.WebClientService;
+import com.coin.portfolio.portfolio.client.TaClient;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
@@ -21,14 +22,14 @@ import lombok.RequiredArgsConstructor;
 public class Coin implements AssetHandler {
 
     private final AssetRepository assetRepository;
-    private final WebClientService webClientService;
     private final ObjectMapper objectMapper;
+    private final TaClient taClient;
 
     @Override
     public void getAssetsInfo() {
         try {
 
-            String response = webClientService.ApiGet("http://193.123.249.35:8080/ta/getTicker", String.class).block();
+            String response = taClient.getTicker();
             List<Asset> assets = objectMapper.readValue(response, new TypeReference<List<Asset>>() {
             });
             for (Asset asset : assets) {
@@ -47,8 +48,7 @@ public class Coin implements AssetHandler {
 
         try {
             List<Asset> assets = assetRepository.findByAssetType(AssetType.COIN);
-            String response = webClientService.ApiGet("https://api.binance.com/api/v3/ticker/price", String.class)
-                    .block();
+            String response = taClient.getPrice();
             List<Map<String, String>> lastPrices = objectMapper.readValue(response,
                     new TypeReference<List<Map<String, String>>>() {
                     });

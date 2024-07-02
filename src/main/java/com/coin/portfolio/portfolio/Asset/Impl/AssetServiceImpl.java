@@ -67,7 +67,6 @@ public class AssetServiceImpl implements AssetService {
             // String response = webClientService.ApiGet("http://ta/getTicker",
             // String.class).block();
             String response = taClient.getTicker();
-            System.out.println(response);
             List<Asset> assets = objectMapper.readValue(response, new TypeReference<List<Asset>>() {
             });
             for (Asset asset : assets) {
