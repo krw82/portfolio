@@ -12,7 +12,6 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class Controller {
     private final AssetService assetService;
-    private final AssetFacade assetFacade;
 
     @GetMapping("/test/v2")
     public void test2() {
@@ -21,7 +20,7 @@ public class Controller {
 
     @GetMapping("/test/v1")
     public void getMethodName() {
-        assetFacade.getAssetPrice();
+        assetService.getAssetPrice();
     }
 
 }

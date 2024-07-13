@@ -10,6 +10,7 @@ import com.coin.portfolio.portfolio.Asset.Asset;
 import com.coin.portfolio.portfolio.Asset.AssetRepository;
 import com.coin.portfolio.portfolio.Asset.AssetService;
 import com.coin.portfolio.portfolio.Asset.AssetType;
+import com.coin.portfolio.portfolio.Asset.AssetHandler.AssetFacade;
 import com.coin.portfolio.portfolio.Error.ErrorCode;
 import com.coin.portfolio.portfolio.Error.PortfolioExeption;
 import com.coin.portfolio.portfolio.client.TaClient;
@@ -24,8 +25,7 @@ import lombok.RequiredArgsConstructor;
 public class AssetServiceImpl implements AssetService {
 
     private final AssetRepository assetRepository;
-    private final ObjectMapper objectMapper;
-    private final TaClient taClient;
+    private final AssetFacade assetFacade;
 
     @Override
     public Asset createAsset(Asset asset) { // 자산 생성
@@ -62,22 +62,12 @@ public class AssetServiceImpl implements AssetService {
 
     @Override
     public void getAssetInfo() {
-        try {
+        assetFacade.getAssetsInfo();
+    }
 
-            // String response = webClientService.ApiGet("http://ta/getTicker",
-            // String.class).block();
-            String response = taClient.getTicker();
-            List<Asset> assets = objectMapper.readValue(response, new TypeReference<List<Asset>>() {
-            });
-            for (Asset asset : assets) {
-                asset.setAssetType(AssetType.COIN);
-            }
-            assetRepository.saveAll(assets);
-
-        } catch (Exception e) {
-            e.printStackTrace();
-            throw new PortfolioExeption(ErrorCode.NO_DATA_TABLE);
-        }
+    @Override
+    public void getAssetPrice() {
+        assetFacade.getAssetPrice();
     }
 
 }

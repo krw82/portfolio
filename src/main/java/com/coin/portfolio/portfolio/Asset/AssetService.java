@@ -14,4 +14,6 @@ public interface AssetService {
     void deleteAsset(String tickerSymbol);
 
     void getAssetInfo();
+
+    void getAssetPrice();
 }
