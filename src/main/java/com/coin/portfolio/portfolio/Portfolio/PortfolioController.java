@@ -5,10 +5,12 @@ import java.util.List;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import com.coin.portfolio.portfolio.Entity.Portfolio;
+
 import lombok.RequiredArgsConstructor;
 
 @RestController
-@RequestMapping("/portfolios")
+@RequestMapping("/portfolio")
 @RequiredArgsConstructor
 public class PortfolioController {
 

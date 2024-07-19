@@ -1,10 +1,11 @@
-package com.coin.portfolio.portfolio.Asset;
+package com.coin.portfolio.portfolio.Entity;
 
 import java.time.LocalDateTime;
 
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
+import com.coin.portfolio.portfolio.Asset.AssetType;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import jakarta.persistence.Entity;
@@ -19,7 +20,7 @@ import lombok.Setter;
 @Getter
 @Setter
 @Table(name = "asset")
-public class Asset {
+public class Asset extends BaseEntity {
     @Id
     private String symbol;
 
@@ -27,13 +28,5 @@ public class Asset {
     private AssetType assetType;
 
     private double lastPrice;
-
-    @JsonIgnore
-    @CreationTimestamp
-    private LocalDateTime createdAt;
-
-    @JsonIgnore
-    @UpdateTimestamp
-    private LocalDateTime updatedAt;
 
 }

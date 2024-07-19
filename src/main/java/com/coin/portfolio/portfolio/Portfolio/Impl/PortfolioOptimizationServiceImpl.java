@@ -2,7 +2,7 @@ package com.coin.portfolio.portfolio.Portfolio.Impl;
 
 import java.util.List;
 
-import com.coin.portfolio.portfolio.Portfolio.Portfolio;
+import com.coin.portfolio.portfolio.Entity.Portfolio;
 import com.coin.portfolio.portfolio.Portfolio.PortfolioOptimizationService;
 
 import org.springframework.context.annotation.Primary;

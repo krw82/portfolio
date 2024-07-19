@@ -3,6 +3,8 @@ package com.coin.portfolio.portfolio.Asset;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import com.coin.portfolio.portfolio.Entity.Asset;
+
 import lombok.RequiredArgsConstructor;
 
 import java.util.List;
@@ -43,5 +45,15 @@ public class AssetController {
     public ResponseEntity<Void> deleteAsset(@PathVariable(value = "symbol") String symbol) {
         assetService.deleteAsset(symbol);
         return ResponseEntity.noContent().build();
+    }
+
+    @PostMapping("/assetInfo")
+    public void getAssetInfo() {
+        assetService.getAssetInfo();
+    }
+
+    @PostMapping("/assetPrice")
+    public void getAssetPrice() {
+        assetService.getAssetPrice();
     }
 }

@@ -2,6 +2,8 @@ package com.coin.portfolio.portfolio.Asset;
 
 import java.util.List;
 
+import com.coin.portfolio.portfolio.Entity.Asset;
+
 public interface AssetService {
     Asset createAsset(Asset asset);
 

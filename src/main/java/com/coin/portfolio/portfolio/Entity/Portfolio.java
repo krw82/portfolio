@@ -1,9 +1,6 @@
-package com.coin.portfolio.portfolio.Portfolio;
+package com.coin.portfolio.portfolio.Entity;
 
 import java.util.Set;
-
-import com.coin.portfolio.portfolio.Asset.Asset;
-import com.coin.portfolio.portfolio.User.UserEntity;
 
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
@@ -24,7 +21,7 @@ import lombok.Setter;
 @Setter
 @Getter
 @Table(name = "portfolio")
-public class Portfolio {
+public class Portfolio extends BaseEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY) // portFolioId
@@ -36,7 +33,7 @@ public class Portfolio {
     @Column(nullable = false) // 평균매입가
     private Long flatPrice;
 
-    @OneToOne(cascade = CascadeType.ALL)
+    @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "symbol")
     private Asset assets;
 

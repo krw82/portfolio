@@ -6,16 +6,12 @@ import java.util.List;
 import org.springframework.context.annotation.Primary;
 import org.springframework.stereotype.Service;
 
-import com.coin.portfolio.portfolio.Asset.Asset;
 import com.coin.portfolio.portfolio.Asset.AssetRepository;
 import com.coin.portfolio.portfolio.Asset.AssetService;
-import com.coin.portfolio.portfolio.Asset.AssetType;
 import com.coin.portfolio.portfolio.Asset.AssetHandler.AssetFacade;
+import com.coin.portfolio.portfolio.Entity.Asset;
 import com.coin.portfolio.portfolio.Error.ErrorCode;
 import com.coin.portfolio.portfolio.Error.PortfolioExeption;
-import com.coin.portfolio.portfolio.client.TaClient;
-import com.fasterxml.jackson.core.type.TypeReference;
-import com.fasterxml.jackson.databind.ObjectMapper;
 
 import lombok.RequiredArgsConstructor;
 
